@@ -1,3 +1,53 @@
+
+
+<?php
+
+// update post meta from frontend
+
+global $post;
+
+if( isset( $_POST['submit_meta'] ) ) {
+
+  
+
+    $my_post = array(
+		    //before equel database field and after equel form field 
+			'post_type'    => 'movie',
+			'post_title'   => $_POST['title'],
+			'post_content' => $_POST['description'],
+			'post_status'  => 'publish' //and more status like publish, draft, privet   
+	    );
+
+	//I'm use wordpress predefine function
+
+	$post_id = wp_insert_post( $my_post );
+	if ( ! empty( $_POST['mobile_number'] ) ) {
+		update_post_meta( $post_id, 'mobile_number', $_POST['mobile_number']);
+	}
+	if ( ! empty( $_POST['full_name'] ) ) {
+		update_post_meta( $post_id, 'full_name', $_POST['full_name']);
+	}	
+	
+	die;
+?>
+
+}
+
+// form for submit from frontend post for custom post type
+<form method="post" action="" id="shortform">
+
+    <input type="text" name="title" value="">
+    <input type="text" name="description" value="">
+	<input id="Info1" type="text" name="mobile_number" value="<?php echo get_post_meta( get_the_ID(), 'mobile_number', true ); ?>">
+	<input id="Info2" type="text" name="full_name" value="<?php echo get_post_meta( get_the_ID(), 'full_name', true ); ?>">
+
+	<input id="btn_url" type="submit" name="submit_meta" value="Confirm" />
+
+</form>
+
+
+
+===================================================================================
 /* I’m able to update post meta without ajax, with page reload using below code.
 *  this code are correct
 */
