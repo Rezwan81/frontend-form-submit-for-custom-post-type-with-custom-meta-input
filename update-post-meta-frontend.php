@@ -18,8 +18,59 @@ echo $_POST[ 'change_meta' ];
 <input style="/*display:none;*/" id="shortUrlInfo2" type="text" name="change_meta" value="<?php echo get_post_meta( get_the_ID(), 'shorturl', true ); ?>">
 <input id="btn_url" type="submit" name="submit_meta" value="Confirm" />
 </form>
+===============================================================================================================================
 
-==================================================================================================
+
+
+// updated code dtructure  update post meta from frontend
+
+global $post;
+
+if( isset( $_POST['submit_meta'] ) ) {
+
+	if( ! empty($_POST['change_meta']) ) {
+       update_post_meta($post->ID, 'shorturl', $_POST['change_meta']);
+    }
+    if ( ! empty( $_POST['mobile_number'] ) ) {
+		update_post_meta( $post_ID, 'mobile_number', $_POST['mobile_number'] );
+	}
+	if ( ! empty( $_POST['full_name'] ) ) {
+		update_post_meta( $post_ID, 'full_name', $_POST['full_name'] );
+	}
+
+    $my_post = array(
+		    //before equel database field and after equel form field 
+			'post_type'    => 'movie',
+			'post_title'   => $_POST['title'],
+			'post_content' => $_POST['description'],
+			'full_name'    => $_POST['full_name']
+			'mobile_number'=> $_POST['mobile_number']
+			'change_meta'  => $_POST['change_meta']	
+			'post_status'  => 'publish' //and more status like publish, draft, privet   
+	    );
+
+	//I'm use wordpress predefine function
+
+	wp_insert_post( $my_post );
+
+	die;
+?>
+
+}
+
+<form method="post" action="" id="shortform">
+
+	<input id="shortUrlInfo2" type="text" name="change_meta" value="<?php echo get_post_meta( get_the_ID(), 'shorturl', true ); ?>">
+	<input id="shortUrlInfo3" type="text" name="mobile_number" value="<?php echo get_post_meta( get_the_ID(), 'mobile_number', true ); ?>">
+	<input id="shortUrlInfo2" type="text" name="full_name" value="<?php echo get_post_meta( get_the_ID(), 'full_name', true ); ?>">
+	
+	<input id="btn_url" type="submit" name="submit_meta" value="Confirm" />
+
+</form>
+
+
+
+=================================================================================================================================
 /*this is for only check our if condition is working or not*/
 <?php
 
